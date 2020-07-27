@@ -3,42 +3,51 @@
 
 #include<stdint.h>
 
-#define MAX_BUTTON_NUMBER 20
+//#define MAX_BUTTON_NUMBER 20
 
 using ButtonFuncPointer = void (*) (void*);
+
 enum buttonMode 
 {
     Pullup,
-    PulldownSS
+    Pulldown
 };
 enum buttonState
 {
     Pressed,
-    Released
+    Released,
+    NonState
 };
 
 class Button{
-
-public:
- Button();
+ public:
+  Button();
 
  protected :
- static  uint8_t buttons_index;
+
+ 
+ buttonState previous_state;
+
+ //static Button* buttons[MAX_BUTTON_NUMBER];
+ //static  uint8_t buttons_index;
  uint8_t max_button_number;
  buttonMode mode;
  buttonState state;
  ButtonFuncPointer pressedTask;
  ButtonFuncPointer releasedTask;
- void addButton(Button* b);
+ //void addButton(Button* b);
  
-public:
+ public:
  void setPressedTask(ButtonFuncPointer f);
  void setReleassedTask(ButtonFuncPointer f);
  void setMode(buttonMode m);
  void setState(buttonState s);
- buttonState getstate();
- 
- 
+
+ buttonState getState();
+
+ //-------TEST FUNCTIONS---------------
+ //uint8_t getButtonCounter();
+
 };
 
 #endif

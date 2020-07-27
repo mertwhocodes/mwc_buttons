@@ -1,12 +1,19 @@
 #include"button.h"
 
 
-uint8_t Button::buttons_index=0;
+//uint8_t Button::buttons_index=0;
+//Button* Button::buttons[MAX_BUTTON_NUMBER];
 
- Button::Button()
+Button::Button()
 {
-
+// addButton(this);
 }
+
+/*void Button::addButton(Button* b)
+{
+    buttons[buttons_index]= b;
+    buttons_index++;
+}*/
 
 void Button::setPressedTask(ButtonFuncPointer f)
 {
@@ -32,3 +39,9 @@ buttonState Button::getstate()
 {
     return state;
 }
+
+//-----------TEST FUNCTIONS----------
+//uint8_t Button::getButtonCounter(){
+
+    //return buttons_index;
+}//
