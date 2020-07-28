@@ -25,9 +25,9 @@
  static uint8_t pin_prev_state[MAX_BUTTON_NUMBER];
 
  void addButton(AVR_button* b);
- void updatePinState();
- void updateButtonState();
- void updateButton();
+ static void updatePinState();
+ static void updateButtonState();
+ static void updateButton();
 
 };
 

@@ -34,10 +34,22 @@ void Button::setState(buttonState s)
 {
     state=s;
 }
+void Button::setPrevState(buttonState s)
+{
+   previous_state=s;
+}
 
-buttonState Button::getstate()
+buttonState Button::getState()
 {
     return state;
+}
+buttonState Button::getPrevState()
+{
+    return previous_state;
+}
+buttonMode Button::getMode()
+{
+    return mode;
 }
 
 //-----------TEST FUNCTIONS----------

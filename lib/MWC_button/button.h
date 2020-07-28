@@ -42,8 +42,11 @@ class Button{
  void setReleassedTask(ButtonFuncPointer f);
  void setMode(buttonMode m);
  void setState(buttonState s);
+ void setPrevState(buttonState s);
 
  buttonState getState();
+ buttonState getPrevState();
+ buttonMode  getMode();
 
  //-------TEST FUNCTIONS---------------
  //uint8_t getButtonCounter();

@@ -63,6 +63,47 @@ void AVR_button::updatePinState()
 void AVR_button::updateButtonState()
 {
     updatePinState();
+     for (uint8_t i = 0; i < MAX_BUTTON_NUMBER; i++)
+    {
+        if(buttons[i]==nullptr)
+        {
+          break;
+        } 
+            buttons[i]->setPrevState(buttons[i]->getState());
+        if (buttons[i]->getMode()==buttonMode::Pullup)
+        {
+            if (pin_state[i]==1)
+            {
+                buttons[i]->setState(buttonState::Released);
+            }
+            else if(pin_state[i]==-1)
+            {
+                buttons[i]->setState(buttonState::Pressed);
+            }
+            else
+            {
+                buttons[i]->setState(buttonState::NonState);
+            }
+        }
+        else if (buttons[i]->getMode()==buttonMode::Pulldown)
+        {
+            if (pin_state[i]==1)
+            {
+                buttons[i]->setState(buttonState::Pressed);
+                buttons[i]->pressedTask(nullptr);
+            }
+            else if(pin_state[i]==-1)
+            {
+                buttons[i]->setState(buttonState::Released);
+                buttons[i]->releasedTask(nullptr);
+            }
+            else
+            {
+                buttons[i]->setState(buttonState::NonState);
+            }
+        }
+        
+     }
     //TODO-add update Button State 
 }
 void AVR_button::updateButton()
