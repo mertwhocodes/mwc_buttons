@@ -51,9 +51,3 @@ buttonMode Button::getMode()
 {
     return mode;
 }
-
-//-----------TEST FUNCTIONS----------
-//uint8_t Button::getButtonCounter(){
-
-    //return buttons_index;
-}//

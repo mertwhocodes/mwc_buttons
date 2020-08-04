@@ -19,7 +19,7 @@ enum buttonState
     NonState
 };
 
-class Button{
+ class Button{
  public:
   Button();
 

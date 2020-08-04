@@ -4,8 +4,10 @@
 uint8_t AVR_button::buttons_index=0;
 AVR_button* AVR_button::buttons[MAX_BUTTON_NUMBER];
 
-uint8_t pin_state[MAX_BUTTON_NUMBER];
-uint8_t prev_pin_state[MAX_BUTTON_NUMBER];
+uint8_t AVR_button::pin_state[MAX_BUTTON_NUMBER];
+uint8_t  AVR_button::pin_prev_state[MAX_BUTTON_NUMBER];
+uint8_t  AVR_button::pin_change[MAX_BUTTON_NUMBER];
+
 
 AVR_button::AVR_button()
 {
@@ -37,6 +39,8 @@ void AVR_button::updatePinState()
     
     for (uint8_t i = 0; i < MAX_BUTTON_NUMBER; i++)
     {
+
+        
         if(buttons[i]==nullptr)
         {
           break;
@@ -56,7 +60,7 @@ void AVR_button::updatePinState()
         //0-1=-1(pressed for pullup)
         //0-0= 0(nonstate)
         //1-1= 0(nonstate)
-        pin_state[i]-=pin_prev_state[i];
+        pin_change[i]=pin_state[i]-pin_prev_state[i];
      }
     
 }
@@ -65,20 +69,24 @@ void AVR_button::updateButtonState()
     updatePinState();
      for (uint8_t i = 0; i < MAX_BUTTON_NUMBER; i++)
     {
+       
         if(buttons[i]==nullptr)
         {
           break;
         } 
+         
             buttons[i]->setPrevState(buttons[i]->getState());
         if (buttons[i]->getMode()==buttonMode::Pullup)
         {
-            if (pin_state[i]==1)
+            if (pin_change[i]==1)
             {
                 buttons[i]->setState(buttonState::Released);
+                buttons[i]->releasedTask(nullptr);
             }
-            else if(pin_state[i]==-1)
+            else if(pin_change[i]==255)
             {
                 buttons[i]->setState(buttonState::Pressed);
+                buttons[i]->pressedTask(nullptr);
             }
             else
             {
@@ -87,12 +95,14 @@ void AVR_button::updateButtonState()
         }
         else if (buttons[i]->getMode()==buttonMode::Pulldown)
         {
-            if (pin_state[i]==1)
+           //Serial.println(pin_change[i]);
+            if (pin_change[i]==1)
             {
                 buttons[i]->setState(buttonState::Pressed);
                 buttons[i]->pressedTask(nullptr);
+              
             }
-            else if(pin_state[i]==-1)
+            else if(pin_change[i]==255)
             {
                 buttons[i]->setState(buttonState::Released);
                 buttons[i]->releasedTask(nullptr);
@@ -108,7 +118,8 @@ void AVR_button::updateButtonState()
 }
 void AVR_button::updateButton()
 {
-    updatePinState();
+     
+   updateButtonState();
     //TODO-add update Button  
 }
 #endif
